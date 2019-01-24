@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cube game</title>
+
+    <!--  import bootsrap class -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+
+    <div class="container-fluid">
+      <div class="row">
+
+
+
+          <!--  game prewiev -->
+            <section class="game-preview col-8">
+
+              <button type="button" id="new-game">New game</button>
+
+              <div class="cubic-images">
+                <img src="images/cubic-1.png" class="cubic-1" alt="cubic-1">
+                <img src="images/cubic-2.png" class="cubic-2" alt="cubic-2">
+                <img src="images/cubic-3.png" class="cubic-3" alt="cubic-3">
+                <img src="images/cubic-4.png" class="cubic-4" alt="cubic-4">
+                <img src="images/cubic-5.png" class="cubic-5" alt="cubic-5">
+                <img src="images/cubic-6.png" class="cubic-6" alt="cubic-6">
+              </div>
+
+              <button id="mix-cubics" type="button" name="mix"><img src="images/mix.png" class="mix-icon" alt="mix-icon"></button>
+
+            </section>
+
+            <!--  table sectoin -->
+             <section class="col-4">
+
+               <table class="table" id="tbl">
+                 <thead class="thead-dark">
+                   <tr>
+                     <th scope="col">combination</th>
+                     <th scope="col">Player 1</th>
+                     <th scope="col">Player 2</th>
+                     <th scope="col">Player 3</th>
+                    <th scope="col">Player 4</th>
+                   </tr>
+                 </thead>
+               <tbody>
+                 <tr id="one-recap">
+                   <th scope="row">1x</th>
+                   <td class="data" id="one-recap-player-1">21</td>
+                   <td class="data" id="one-recap-player-2">0</td>
+                   <td class="data" id="one-recap-player-3">22</td>
+                   <td class="data" id="one-recap-player-4">0</td>
+                 </tr>
+                 <tr id="two-recap">
+                   <th scope="row">2x</th>
+                   <td class="data" id="two-recap-player-1">21</td>
+                   <td class="data" id="two-recap-player-2">0</td>
+                   <td class="data" id="two-recap-player-3">22</td>
+                   <td class="data" id="two-recap-player-4">0</td>
+                 </tr>
+                 <tr id="three-recap">
+                   <th scope="row">3x</th>
+                   <td class="data" id="three-recap-player-1">21</td>
+                   <td class="data" id="three-recap-player-2">0</td>
+                   <td class="data" id="three-recap-player-3">22</td>
+                   <td class="data" id="three-recap-player-4">0</td>
+                 </tr>
+                 <tr id="four-recap">
+                   <th scope="row">4x</th>
+                   <td class="data" id="four-recap-player-1">21</td>
+                   <td class="data" id="four-recap-player-2">0</td>
+                   <td class="data" id="four-recap-player-3">22</td>
+                   <td class="data" id="four-recap-player-4">0</td>
+                 </tr>
+                 <tr id="five-recap">
+                   <th scope="row">5x</th>
+                   <td class="data" id="five-recap-player-1">21</td>
+                   <td class="data" id="five-recap-player-2">0</td>
+                   <td class="data" id="five-recap-player-3">22</td>
+                   <td class="data" id="five-recap-player-4">0</td>
+                 </tr>
+                 <tr id="six-recap">
+                   <th scope="row">6x</th>
+                   <td class="data" id="six-recap-player-1">21</td>
+                   <td class="data" id="six-recap-player-2">0</td>
+                   <td class="data" id="six-recap-player-3">22</td>
+                   <td class="data" id="six-recap-player-4">0</td>
+                 </tr>
+                 <!-- <tr>
+                   <td></td><td></td><td></td><td></td>
+                 </tr>
+                 <tr id="tripple-recap">
+                   <th scope="row">3x</th>
+                   <td class="data" id="tripple-recap-player-1">21</td>
+                   <td class="data" id="tripple-recap-player-2">0</td>
+                   <td class="data" id="tripple-recap-player-3">22</td>
+                   <td class="data" id="tripple-recap-player-4">0</td>
+                 </tr>
+                 <tr id="full-recap">
+                   <th scope="row">3x2x</th>
+                   <td class="data" id="full-recap-player-1">21</td>
+                   <td class="data" id="full-recap-player-2">0</td>
+                   <td class="data" id="full-recap-player-3">22</td>
+                   <td class="data" id="full-recap-player-4">0</td>
+                 </tr>
+                 <tr id="small-street-recap">
+                   <th scope="row">small street</th>
+                   <td class="data" id="small-street-player-1">21</td>
+                   <td class="data" id="small-street-player-2">0</td>
+                   <td class="data" id="small-street-player-3">22</td>
+                   <td class="data" id="small-street-player-4">0</td>
+                 </tr>
+                 <tr id="street-recap">
+                   <th scope="row">street</th>
+                   <td class="data" id="street-recap-player-1">21</td>
+                   <td class="data" id="street-recap-player-2">0</td>
+                   <td class="data" id="street-recap-player-3">22</td>
+                   <td class="data" id="street-recap-player-4">0</td>
+                 </tr>
+                 <tr id="fourfold-recap">
+                   <th  scope="row">4x</th>
+                   <td class="data" id="fourfold-recap-player-1">21</td>
+                   <td class="data" id="fourfold-recap-player-2">0</td>
+                   <td class="data" id="fourfold-recap-player-3">22</td>
+                   <td class="data" id="fourfold-recap-player-4">0</td>
+                 </tr>
+                 <tr id="sixfold-recap">
+                   <th scope="row">x6x</th>
+                   <td class="data" id="sixfold-recap-player-1">21</td>
+                   <td class="data" id="sixfold-recap-player-2">0</td>
+                   <td class="data" id="sixfold-recap-player-3">22</td>
+                   <td class="data" id="sixfold-recap-player-4">0</td>
+                 </tr>
+                 <tr id="chance-recap">
+                   <th scope="row">chance</th>
+                   <td class="data" id="chance-player-1">21</td>
+                   <td class="data" id="chance-player-2">0</td>
+                   <td class="data" id="chance-player-3">22</td>
+                   <td class="data" id="chance-player-4">0</td>
+                 </tr> -->
+                 <tr id="sum-recap">
+                   <th scope="row">sum</th>
+                   <td id="sum-player-1">21</td>
+                   <td id="sum-player-2">0</td>
+                   <td id="sum-player-3">22</td>
+                   <td id="sum-player-4">0</td>
+                 </tr>
+               </tbody>
+            </table>
+
+          </section>
+      </div>
+
+
+
+
+    </div>
+
+
+
+
+
+<script src="js/model.js" charset="utf-8"></script>
+<!-- <script src="js/game.js" charset="utf-8"></script> -->
+
+<!-- bootsytap scripts  -->
+<!-- jquery, ajax, boostrap -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+</html>

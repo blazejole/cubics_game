@@ -1,0 +1,57 @@
+body{
+  /* height: 100%; */
+}
+.not-visible{
+  display: none;
+}
+.clickable{
+  cursor: pointer;
+  font-weight: bold;
+}
+#mix-cubics{
+  display: none;
+}
+
+.game-preview{
+  /* height: 100%; */
+  background-color: green;
+  padding: 25px;
+}
+
+.game-preview #new-game{
+  height: 30px;
+/* width: 80px; */
+float: right;
+cursor: pointer;
+}
+
+.game-preview .cubic-images img{
+  cursor: pointer;
+  display: none;
+}
+.game-preview .cubic-images .visible{
+  display: inline;
+}
+
+.active-player{
+  background-color: red;
+  font-weight: bold;
+}
+.cubic-images{
+  height: 50%;
+}
+
+
+
+.cubic-images img{
+  height: 60px;
+}
+
+.game-preview .cubic-images .active{
+  border: 5px solid pink;
+}
+
+.mix-icon{
+  height: 30px;
+  cursor: pointer;
+}
