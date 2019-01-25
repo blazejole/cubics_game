@@ -8,7 +8,7 @@ var gameController = (function(){
   var players, activePlayer, mixedNumbers, arrayMixedNumbers, num1, num2, num3, num4, num5, round;
   var cubicResult, threeRecapResult, twoThreeResult, smallStreetResult, streetResult, fiveRecap, sixRescap, chance;
   var tempSum1 , tempSum2, tempSum3, tempSum4, tempSum5, tempSum6;
-  var wholeArrResult, addResultToPlayerArray, playerArray;
+  var wholeArrResult, addResultToPlayerArray, playerArray, resetArr;
 
 
   players = [];
@@ -114,7 +114,22 @@ addResultToPlayerArray = function(val, ind, actPl){
 addPlayerSum = function(val, active){
     players[active-1].sum += val;
     return players[active-1].sum;
-}
+};
+
+resetArr = function(arr){
+  arr = [];
+  // hoveredIndexes = [];
+  // for(var i =1; i< 6; i++){
+  //   arrayMixedNumbers[i] = i;
+  // }
+  // hoveredIndexes.forEach(function(cur, ind){
+    // cur = null;
+
+  // });
+  // return hoveredIndexes;
+  // console.log(arrayMixedNumbers);
+  return arr;
+};
 
 
 return{
@@ -149,6 +164,9 @@ getMixedNumbers: function(arr){
  updateSum: function(val, active){
 
    return addPlayerSum(val, active);
+ },
+ resetHoveredBonesArray: function(arr){
+   return resetArr(arr);
  }
 
 
@@ -164,7 +182,7 @@ getMixedNumbers: function(arr){
 //UIController
 var UIController = (function(){
 
-  var activePlayer, updateView, showImg, hoverRoundBone, hoveredIndexes, hoverPlayer, btn, clickedIndex, getValue, active, disablePlayerCell;
+  var activePlayer, updateView, showImg, hoverRoundBone, hoveredIndexes, hoverPlayer, btn, clickedIndex, getValue, active, disablePlayerCell, cubicsRound;
   //get from player controller activePlayer
 
   var DOMStrings = {
@@ -185,7 +203,9 @@ var UIController = (function(){
     bone6: 'cubic-6',
     bone: '.cubic-',
     sum: 'sum-player-',
-    clickedCellPlayer: 'active-player'
+    clickedCellPlayer: 'active-player',
+    arrCubicsClass : 'cubic-images',
+    cubicsSection: 'cubics-section'
 
     //.. .. ..
   };
@@ -195,12 +215,23 @@ var UIController = (function(){
 
   var updateView = function(active, arr){
 
-    document.getElementById(DOMStrings.inputOneRecap + active).value =arr[0];
-    document.getElementById(DOMStrings.inputTwoRecap + active).innerHTML =arr[1];
-    document.getElementById(DOMStrings.inputThreeRecap + active).innerHTML =arr[2];
-    document.getElementById(DOMStrings.inputFourRecap + active).innerHTML =arr[3];
-    document.getElementById(DOMStrings.inputFiveRecap + active).innerHTML =arr[4];
-    document.getElementById(DOMStrings.inputSixRecap + active).innerHTML =arr[5];
+    if(document.getElementById(DOMStrings.inputOneRecap + active))
+      document.getElementById(DOMStrings.inputOneRecap + active).innerHTML =arr[0];
+
+    if(document.getElementById(DOMStrings.inputTwoRecap + active))
+      document.getElementById(DOMStrings.inputTwoRecap + active).innerHTML =arr[1];
+
+    if(document.getElementById(DOMStrings.inputThreeRecap + active))
+      document.getElementById(DOMStrings.inputThreeRecap + active).innerHTML =arr[2];
+
+    if(document.getElementById(DOMStrings.inputFourRecap + active))
+      document.getElementById(DOMStrings.inputFourRecap + active).innerHTML =arr[3];
+
+    if(document.getElementById(DOMStrings.inputFiveRecap + active))
+      document.getElementById(DOMStrings.inputFiveRecap + active).innerHTML =arr[4];
+
+    if(document.getElementById(DOMStrings.inputSixRecap + active))
+      document.getElementById(DOMStrings.inputSixRecap + active).innerHTML =arr[5];
 
   };
 
@@ -222,6 +253,7 @@ var UIController = (function(){
 
   };
   hoveredIndexes = [];
+
   hoverRoundBone = function(ind){
 
      $( DOMStrings.bone+ind).toggleClass('active');
@@ -265,11 +297,11 @@ var UIController = (function(){
   };
 
   disablePlayerCell = function(id){
-
+    //TODO
     console.log("IDDDDD");
     console.log(id);
     $('#'+id).attr("background-color", "red");
-    $('#'+id).removeAttr(id);
+    $('#'+id).removeAttr('id');
     $('#'+id).removeClass(DOMStrings.clickedCellPlayer);
 
     // $('#'+id).prop('disabled', false);
@@ -278,12 +310,26 @@ var UIController = (function(){
   };
 
   updateSumAfterRound= function(val,active){
-    console.log(".................");
-    console.log(val);
-    console.log(DOMStrings.sum+active);
-    console.log($('#'+DOMStrings.sum+active));
+    // console.log(".................");
+    // console.log(val);
+    // console.log(DOMStrings.sum+active);
+    // console.log($('#'+DOMStrings.sum+active));
     $('#'+DOMStrings.sum+active).html(val);
   };
+
+  removeToggledPlayerBones = function(){
+
+    // console.log($('#'+DOMStrings.cubicsSection+'>div>'));
+    $('#'+DOMStrings.cubicsSection+'>div>').removeClass('active');
+
+
+
+  };
+var reset = function(arr){
+arr = [];
+
+};
+
 
   return {
 
@@ -333,7 +379,14 @@ var UIController = (function(){
     },
     updateSumView: function(val, active){
       return updateSumAfterRound(val, active);
+    },
+    removeToggledBones: function(){
+      return removeToggledPlayerBones();
     }
+    , resetHoveredBonesArray: function(arr){
+      reset(arr);
+    }
+
 
   }
 
@@ -394,6 +447,10 @@ var startGameButton = function(){
 
 
 var startRound = function(){
+  // hoveredBones = [];
+  console.log("START ROUND>>>>>");
+  console.log(hoveredBones);
+
   players = gameCtrl.getPlayers();
   // activePlayer = gameCtrl.getActivePlayer();
 
@@ -428,20 +485,45 @@ var startRound = function(){
 setUpRoundListeners = function(){
 
   //wait until user click one combination
+  if(document.getElementById(DOM.inputOneRecap+activePlayer))
     document.getElementById(DOM.inputOneRecap+activePlayer).addEventListener("click",selectCombination);
+
+if(document.getElementById(DOM.inputTwoRecap+activePlayer))
     document.getElementById(DOM.inputTwoRecap+activePlayer).addEventListener("click",selectCombination);
+
+if(document.getElementById(DOM.inputThreeRecap+activePlayer))
     document.getElementById(DOM.inputThreeRecap+activePlayer).addEventListener("click",selectCombination);
+
+if(document.getElementById(DOM.inputFourRecap+activePlayer))
     document.getElementById(DOM.inputFourRecap+activePlayer).addEventListener("click",selectCombination);
+
+if(document.getElementById(DOM.inputFiveRecap+activePlayer))
     document.getElementById(DOM.inputFiveRecap+activePlayer).addEventListener("click",selectCombination);
+
+if(document.getElementById(DOM.inputSixRecap+activePlayer))
     document.getElementById(DOM.inputSixRecap+activePlayer).addEventListener("click",selectCombination);
 };
 removeEventListeners = function(){
-  document.getElementById(DOM.inputOneRecap+activePlayer).removeEventListener("click",selectCombination);
-  document.getElementById(DOM.inputTwoRecap+activePlayer).removeEventListener("click",selectCombination);
-  document.getElementById(DOM.inputThreeRecap+activePlayer).removeEventListener("click",selectCombination);
-  document.getElementById(DOM.inputFourRecap+activePlayer).removeEventListener("click",selectCombination);
-  document.getElementById(DOM.inputFiveRecap+activePlayer).removeEventListener("click",selectCombination);
-  document.getElementById(DOM.inputSixRecap+activePlayer).removeEventListener("click",selectCombination);
+
+  // console.log(document.getElementById(DOM.inputOneRecap+activePlayer));
+
+  if(document.getElementById(DOM.inputOneRecap+activePlayer))
+    document.getElementById(DOM.inputOneRecap+activePlayer).removeEventListener("click",selectCombination);
+
+  if(document.getElementById(DOM.inputTwoRecap+activePlayer))
+    document.getElementById(DOM.inputTwoRecap+activePlayer).removeEventListener("click",selectCombination);
+
+  if(document.getElementById(DOM.inputThreeRecap+activePlayer))
+    document.getElementById(DOM.inputThreeRecap+activePlayer).removeEventListener("click",selectCombination);
+
+  if(document.getElementById(DOM.inputFourRecap+activePlayer))
+    document.getElementById(DOM.inputFourRecap+activePlayer).removeEventListener("click",selectCombination);
+
+  if(document.getElementById(DOM.inputFiveRecap+activePlayer))
+    document.getElementById(DOM.inputFiveRecap+activePlayer).removeEventListener("click",selectCombination);
+
+  if(document.getElementById(DOM.inputSixRecap+activePlayer))
+    document.getElementById(DOM.inputSixRecap+activePlayer).removeEventListener("click",selectCombination);
 }
 
 selectCombination = function(event){
@@ -455,20 +537,9 @@ selectCombination = function(event){
     console.log("val round");
     console.log(valueRound);
 
-
-  // porblem bo player to obiekt, nie moge odowlac sie po inde
-
   gameCtrl.addResult(valueRound, clickedIndex, activePlayer);
 
 
-
-  //disable table cell clicked
-  // console.log("thhhhhh");
-  // console.log(this.id);
-
-  //===========TODO===============
-  uICtrl.disableCell(this.id);
-  //==================================
 
 
   playerSum = gameCtrl.updateSum(valueRound, activePlayer);
@@ -480,6 +551,25 @@ selectCombination = function(event){
   console.log(players);
   //remove activePlayer view
   uICtrl.rehoverActivePLayer(activePlayer);
+
+  //cash hovered array prev player TODO
+  uICtrl.removeToggledBones();
+  hoveredBones = gameCtrl.resetHoveredBonesArray(hoveredBones);
+
+
+console.log("HOHOHOHO");
+console.log(hoveredBones);
+  // hoveredBones = [];
+
+  // for(let i =1; i< 6; i++ ){
+    // saveBone(0);
+  // }
+
+  //===========TODO===============
+  uICtrl.disableCell(this.id);
+  //==================================
+
+
   //removeListeners
   removeEventListeners(activePlayer);
   activePlayer = gameCtrl.getActivePlayer();
@@ -500,7 +590,8 @@ var saveBone = function(){
 
     //toggle class wchiich is clicked
     hoveredBones = uICtrl.hoverBone(parseInt(this.textContent));
-    // console.log(hoveredBones);
+    console.log("HOVERED BONESSSSSSSSSSSSS");
+    console.log(hoveredBones);
 
     //rememebr which bone is selected and ommit it after next round
 
