@@ -116,7 +116,7 @@ addPlayerSum = function(val, active){
     return players[active-1].sum;
 };
 
-resetArr = function(arr){
+resetArr = function(){
   arr = [];
   // hoveredIndexes = [];
   // for(var i =1; i< 6; i++){
@@ -164,10 +164,11 @@ getMixedNumbers: function(arr){
  updateSum: function(val, active){
 
    return addPlayerSum(val, active);
- },
- resetHoveredBonesArray: function(arr){
-   return resetArr(arr);
  }
+ // ,
+ // resetHoveredBonesArray: function(){
+ //   return resetArr();
+ // }
 
 
 }
@@ -182,8 +183,10 @@ getMixedNumbers: function(arr){
 //UIController
 var UIController = (function(){
 
-  var activePlayer, updateView, showImg, hoverRoundBone, hoveredIndexes, hoverPlayer, btn, clickedIndex, getValue, active, disablePlayerCell, cubicsRound;
+  var activePlayer, updateView, showImg, hoverRoundBone, hoveredIndexes, hoverPlayer, btn, clickedIndex, getValue, active, disablePlayerCell, cubicsRound, reset;
   //get from player controller activePlayer
+
+hoveredIndexes = [];
 
   var DOMStrings = {
     buttonNewGame: 'new-game',
@@ -245,23 +248,71 @@ var UIController = (function(){
 
   showImg = function(arr){
     // console.log(arr);
+    console.log(">>>>>>>>>>");
+    console.log($("."+DOMStrings.arrCubicsClass)[0]);
+
+
+
     for(var i =0; i< arr.length; i++){
+      randomNumAngle =  Math.round(Math.random()*15+1);
+
       $( DOMStrings.bone + (i+1)).attr("src", " images/cubic-"+arr[i]+ ".png");
       $( DOMStrings.bone + (i+1))[0].textContent = i+1;
       $( DOMStrings.bone + (i+1))[0].style.display = "inline";
+
+
+
+
+      $( DOMStrings.bone + (i+1)).css("margin-left", "10px");
+
+
+      // $( DOMStrings.bone + (i+1)).css("transition", "1s");
+
+      //============TODO=============
+      //animate bones from the top of the screen
+      // var pos = 0;
+      // var id = setInterval(frame, 10);
+      //
+      // function frame(){
+      //     console.log("??");
+      //   if(pos= 200){
+      //     clearInterval(id);
+      //   }else{
+      //     console.log(pos);
+      //     pos++;
+      //     $( DOMStrings.bone + (i+1)).css("top", pos+"px");
+      //   }
+      // }
+
+      //rotate random angle 1 to 15 degree(+ sign for odd numbers)
+      if(i%2 == 0){
+        $( DOMStrings.bone + (i+1)).css("transform", "rotate("+randomNumAngle+"deg)");
+      }else{
+        $( DOMStrings.bone + (i+1)).css("transform", "rotate(-"+randomNumAngle+"deg)");
+      }
+
+
     }
 
   };
-  hoveredIndexes = [];
+
 
   hoverRoundBone = function(ind){
 
+    if(ind >0){
+// alert("??");
      $( DOMStrings.bone+ind).toggleClass('active');
 
      if($( DOMStrings.bone+ind).hasClass('active'))
         hoveredIndexes [ind-1] = ind;
       else
         hoveredIndexes [ind-1] = null;
+
+    }else{
+
+      //if <=0 -> clear array
+      hoveredIndexes = [];
+    }
 
       return hoveredIndexes;
   };
@@ -322,12 +373,11 @@ var UIController = (function(){
     // console.log($('#'+DOMStrings.cubicsSection+'>div>'));
     $('#'+DOMStrings.cubicsSection+'>div>').removeClass('active');
 
-
-
   };
-var reset = function(arr){
-arr = [];
 
+  reset = function(arr){
+    arr = [];
+    return arr;
 };
 
 
@@ -382,9 +432,9 @@ arr = [];
     },
     removeToggledBones: function(){
       return removeToggledPlayerBones();
-    }
-    , resetHoveredBonesArray: function(arr){
-      reset(arr);
+    },
+    resetHoveredBonesArray: function(arr){
+      return reset(arr);
     }
 
 
@@ -393,8 +443,6 @@ arr = [];
 
 
 })();
-
-
 
 
 
@@ -435,6 +483,7 @@ var setUpListeners = function(){
 
 
 var startGameButton = function(){
+      // $("."+DOM.arrCubicsClass)[0].slideDown( "slow" );
 
     //1 clear fields, setup to 0 players scores
     players.forEach(function(cur, ind){
@@ -530,15 +579,14 @@ selectCombination = function(event){
 
     //detect which index is clicled
   clickedIndex = uICtrl.selectRoundIndex(this);
-    console.log("index +1 dodac");
-    console.log(clickedIndex);
+    // console.log("index +1 dodac");
+    // console.log(clickedIndex);
 
   valueRound =parseInt(uICtrl.geValueToSave(event));
-    console.log("val round");
-    console.log(valueRound);
+    // console.log("val round");
+    // console.log(valueRound);
 
   gameCtrl.addResult(valueRound, clickedIndex, activePlayer);
-
 
 
 
@@ -554,47 +602,35 @@ selectCombination = function(event){
 
   //cash hovered array prev player TODO
   uICtrl.removeToggledBones();
-  hoveredBones = gameCtrl.resetHoveredBonesArray(hoveredBones);
 
+  // hoveredBones = uICtrl.resetHoveredBonesArray(hoveredBones);
 
-console.log("HOHOHOHO");
-console.log(hoveredBones);
-  // hoveredBones = [];
+  hoveredBones = uICtrl.hoverBone(parseInt(-1));
 
-  // for(let i =1; i< 6; i++ ){
-    // saveBone(0);
-  // }
+  console.log("HOHOHOHO");
+  console.log(hoveredBones);
+
 
   //===========TODO===============
   uICtrl.disableCell(this.id);
   //==================================
 
-
   //removeListeners
   removeEventListeners(activePlayer);
   activePlayer = gameCtrl.getActivePlayer();
 
-
-
-
-
+//start new round
   startRound();
-
-
-  //start new round
-
 
 };
 
 var saveBone = function(){
 
     //toggle class wchiich is clicked
-    hoveredBones = uICtrl.hoverBone(parseInt(this.textContent));
-    console.log("HOVERED BONESSSSSSSSSSSSS");
-    console.log(hoveredBones);
-
     //rememebr which bone is selected and ommit it after next round
-
+    hoveredBones = uICtrl.hoverBone(parseInt(this.textContent));
+    // console.log("HOVERED BONESSSSSSSSSSSSS");
+    // console.log(hoveredBones);
 }
 
 return {
